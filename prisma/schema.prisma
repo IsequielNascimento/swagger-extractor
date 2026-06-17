@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Snapshot {
+  id          String   @id @default(uuid())
+  apiName     String
+  swaggerJson Json
+  createdAt   DateTime @default(now())
+
+  diffsOld SnapshotDiff[] @relation("SnapshotOld")
+  diffsNew SnapshotDiff[] @relation("SnapshotNew")
+}
+
+model SnapshotDiff {
+  id            String   @id @default(uuid())
+  snapshotOldId String
+  snapshotNewId String
+  diffJson      Json
+  createdAt     DateTime @default(now())
+
+  snapshotOld Snapshot @relation("SnapshotOld", fields: [snapshotOldId], references: [id], onDelete: Cascade)
+  snapshotNew Snapshot @relation("SnapshotNew", fields: [snapshotNewId], references: [id], onDelete: Cascade)
+}
