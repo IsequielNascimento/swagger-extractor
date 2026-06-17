@@ -19,13 +19,13 @@ export function DateSelector({
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="flex flex-col">
-        <label className="text-sm font-semibold mb-1 text-gray-700">Vers?o Anterior</label>
+        <label className="text-sm font-semibold mb-1 text-gray-700">Previous Version</label>
         <select
           value={oldId || ''}
           onChange={(e) => onOldIdChange(e.target.value)}
           className="border p-2 rounded-md bg-white text-black min-w-[250px]"
         >
-          <option value="" disabled>Selecione uma data</option>
+          <option value="" disabled>Select a date</option>
           {snapshots.map((s) => (
             <option key={s.id} value={s.id}>
               {new Date(s.createdAt).toLocaleString()} - {s.apiName}
@@ -35,13 +35,13 @@ export function DateSelector({
       </div>
 
       <div className="flex flex-col">
-        <label className="text-sm font-semibold mb-1 text-gray-700">Vers?o Nova</label>
+        <label className="text-sm font-semibold mb-1 text-gray-700">New Version</label>
         <select
           value={newId || ''}
           onChange={(e) => onNewIdChange(e.target.value)}
           className="border p-2 rounded-md bg-white text-black min-w-[250px]"
         >
-          <option value="" disabled>Selecione uma data</option>
+          <option value="" disabled>Select a date</option>
           {snapshots.map((s) => (
             <option key={s.id} value={s.id}>
               {new Date(s.createdAt).toLocaleString()} - {s.apiName}

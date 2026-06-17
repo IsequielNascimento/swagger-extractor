@@ -48,3 +48,5 @@ dev.db
 *.md
 
 !README.md
+
+migrations/
