@@ -2,7 +2,6 @@ import { config } from 'dotenv';
 import { DownloadSwaggerUseCase } from '../src/modules/snapshots/useCases/DownloadSwaggerUseCase';
 import { SaveSnapshotUseCase } from '../src/modules/snapshots/useCases/SaveSnapshotUseCase';
 
-// Carrega as variáveis do .env local
 config({ path: '.env' });
 config({ path: '.env.local', override: true });
 
@@ -31,9 +30,15 @@ async function main() {
       try {
         const swaggerJson = await downloader.execute(target.url);
         const result = await saver.execute(target.name, swaggerJson);
-        console.log(`✅ Snapshot '${target.name}' salvo com sucesso. ID: ${result.id}`);
+
+        if (result.diff === null && result.snapshot) {
+          console.log(`⏭️  Nenhuma mudança detectada em '${target.name}'. Snapshot não salvo.`);
+        } else {
+          // Bug corrigido: result.snapshot.id em vez de result.id
+          console.log(`✅ Snapshot '${target.name}' salvo com sucesso. ID: ${result.snapshot.id}`);
+        }
       } catch (err: any) {
-         console.error(`❌ Falha ao processar '${target.name}': ${err.message}`);
+        console.error(`❌ Falha ao processar '${target.name}': ${err.message}`);
       }
     }
 

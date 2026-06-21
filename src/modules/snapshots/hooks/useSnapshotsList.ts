@@ -14,14 +14,14 @@ export function useSnapshotsList() {
   useEffect(() => {
     fetch('/api/snapshots')
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch snapshots');
-        return res.json();
+        if (!res.ok) throw new Error('Falha ao carregar snapshots');
+        return res.json() as Promise<SnapshotSummary[]>;
       })
       .then((data) => {
         setSnapshots(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         setError(err.message);
         setLoading(false);
       });
