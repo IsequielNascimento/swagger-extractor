@@ -1,4 +1,4 @@
-import { Snapshot, SnapshotDiff } from '@prisma/client';
+import { Prisma, Snapshot, SnapshotDiff } from '@prisma/client';
 import { prisma } from '@/core/database/prisma';
 import { CompareSnapshotsUseCase } from './CompareSnapshotsUseCase';
 
@@ -43,7 +43,8 @@ export class SaveSnapshotUseCase {
       data: {
         snapshotOldId: lastSnapshot.id,
         snapshotNewId: newSnapshot.id,
-        diffJson: diffObj,
+        // Cast necessário: Prisma exige InputJsonValue para campos Json
+        diffJson: diffObj as unknown as Prisma.InputJsonValue,
       },
     });
 

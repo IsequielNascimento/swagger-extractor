@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/core/database/prisma';
 import { CompareSnapshotsUseCase, SnapshotDiffResult } from '@/modules/snapshots/useCases/CompareSnapshotsUseCase';
 
@@ -46,11 +47,12 @@ export async function GET(request: Request) {
     const diffObj = comparer.execute(oldSnapshot.swaggerJson, newSnapshot.swaggerJson);
 
     // Persiste para futuras requisições do mesmo par
+    // Cast necessário: Prisma exige InputJsonValue para campos Json
     await prisma.snapshotDiff.create({
       data: {
         snapshotOldId: oldId,
         snapshotNewId: newId,
-        diffJson: diffObj,
+        diffJson: diffObj as unknown as Prisma.InputJsonValue,
       },
     });
 
