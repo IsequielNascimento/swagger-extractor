@@ -8,6 +8,6 @@ export type SnapshotDiffResult = {
 
 export class CompareSnapshotsUseCase {
   execute(oldSwaggerObj: unknown, newSwaggerObj: unknown): SnapshotDiffResult {
-    return detailedDiff(oldSwaggerObj, newSwaggerObj) as SnapshotDiffResult;
+    return detailedDiff(oldSwaggerObj as object, newSwaggerObj as object) as SnapshotDiffResult;
   }
 }

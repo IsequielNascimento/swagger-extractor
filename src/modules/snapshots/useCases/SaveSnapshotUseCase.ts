@@ -21,7 +21,7 @@ export class SaveSnapshotUseCase {
     }
 
     const newSnapshot = await prisma.snapshot.create({
-      data: { apiName, swaggerJson },
+      data: { apiName, swaggerJson: swaggerJson as Prisma.InputJsonValue },
     });
 
     if (!lastSnapshot) {
